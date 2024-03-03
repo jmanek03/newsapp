@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 
 export class NewsItem extends Component {
+  
   render() {
-    let {title,description}=this.props;
+    let {title,description,imageUrl}=this.props;
     return (
-      <div>
-        <div classname="card" style={{width: "18rem"}}>
-            <img src="..." classname="card-img-top" alt="..."/>
-            <div classname="card-body">
-              <h5 classname="card-title">{title}</h5>
-              <p classname="card-text">{description}</p>
-              {/* <a href="#" classname="btn btn-primary">Go somewhere</a> */}
-            </div>
+      <div className="my-3">
+        <div className="card" style={{width: "18rem"}}>
+            <img src={imageUrl} className="card-img-top" alt="..."/>
+            <div className="card-body">
+              <h5 className="card-title">{title}</h5>
+              <p className="card-text">{description}</p>
+              <a href="/newsdetail" className="btn btn-sm btn-primary">Read More</a>
+            </div> 
         </div>
       </div>
     )
