@@ -268,15 +268,39 @@ export class News extends Component {
     super();
     this.state={
       articles:this.articles,
-      loading:false
+      loading:false,
+      page:1
     }
   }
   async componentDidMount(){
-    let url ="https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=6f4a1b34ac914726b4d5f620d232a6af";
+    let url ="https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=6f4a1b34ac914726b4d5f620d232a6af&pageSize=15";
     let data= await fetch(url);
     let parsedData= await data.json();
-    this.setState({articles:parsedData.articles})
+    this.setState({articles:parsedData.articles,totalResults:parsedData.totalResults});
 
+  }
+   handlePreviousClick=async()=>{
+    let url =`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=6f4a1b34ac914726b4d5f620d232a6af&page=${this.state.page-1}&pageSize=15`;
+    let data= await fetch(url);
+    let parsedData= await data.json();
+    this.setState({
+      page:this.state.page-1,
+      articles:parsedData.articles
+    })
+  }
+   handleNextClick=async()=>{
+    if(this.state.page+1>Math.ceil(this.state.totalResults/15)){
+
+    }
+    else{
+      let url =`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=6f4a1b34ac914726b4d5f620d232a6af&page=${this.state.page+1}&pageSize=15`;
+      let data= await fetch(url);
+      let parsedData= await data.json();
+      this.setState({
+        page:this.state.page+1,
+        articles:parsedData.articles
+      })
+    }
   }
   render() {
     return (
@@ -289,6 +313,10 @@ export class News extends Component {
           <NewsItem title={element.title.slice(0,45)} description={element.description?.slice(0,50)} imageUrl={element.urlToImage} newsUrl={element.url}/>
         </div>
         })} 
+        </div>
+        <div className='container d-flex justify-content-between'>
+          <button disabled={this.state.page<=1}type="button" className="btn btn-dark "onClick={this.handlePreviousClick}>&larr; Previous</button>
+          <button type="button" className="btn btn-dark" onClick={this.handleNextClick}>Next &rarr;</button>
         </div>
       </div>
     )
