@@ -277,13 +277,17 @@ export class News extends Component {
         "content": "Two presidents will visit the southern US border Thursday, highlighting the centrality of migrant surges to Novembers election in a spectacle that will explain why Americas polarized politics has for… [+10445 chars]"
       }
     ]
-  constructor() {
-    super();
+    capitalizeFirstLetter = (string) => {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  constructor(props) {
+    super(props);
     this.state={
       articles:this.articles,
       loading:false,
       page:1
     }
+    document.title=`NewsApp - ${this.capitalizeFirstLetter(this.props.category)}`;
   }
   async updateNews(pageNo){
     let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6f4a1b34ac914726b4d5f620d232a6af&pageSize=${this.props.pageSize}&page=${this.state.page}`;
@@ -336,7 +340,7 @@ export class News extends Component {
   render() {
     return (
       <div className="container my-3">
-        <h1 className='text-center' style={{margin:'35px 0px'}}>NewsApp - Top Headlines</h1>
+        <h1 className='text-center' style={{margin:'35px 0px'}}>NewsApp - Top Headlines from {this.capitalizeFirstLetter(this.props.category)}</h1>
         {this.state.loading && <Spinner/>}
         <div className='row'>
         {!this.state.loading && this.state.articles?.map((element)=>{
