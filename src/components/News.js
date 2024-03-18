@@ -292,13 +292,17 @@ export class News extends Component {
     document.title=`NewsApp - ${this.capitalizeFirstLetter(this.props.category)}`;
   }
   async updateNews(){
+    this.props.setprogress(20);
     let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6f4a1b34ac914726b4d5f620d232a6af&pageSize=${this.props.pageSize}&page=${this.state.page}`;
     this.setState({
       loading:true,
     });
     let data= await fetch(url);
+    this.props.setprogress(50);
     let parsedData= await data.json();
+    this.props.setprogress(70);
     this.setState({articles:parsedData.articles,totalResults:parsedData.totalResults,loading:false});
+    this.props.setprogress(100);
   }
   async componentDidMount(){
     this.updateNews();
@@ -315,7 +319,7 @@ export class News extends Component {
   render() {
     return (
       <>
-        <h1 className='text-center' style={{margin:'35px 0px'}}>NewsApp - Top Headlines from {this.capitalizeFirstLetter(this.props.category)}</h1>
+        <h1 className='text-center' style={{margin:'35px 0px'}}>NewsApp - Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h1>
       {this.state.loading && <Spinner/>} 
         <InfiniteScroll
           dataLength={this.state.articles.length}
