@@ -4,6 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Add Google Fonts for professional typography
+const fontLink = document.createElement("link");
+fontLink.href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap";
+fontLink.rel = "stylesheet";
+document.head.appendChild(fontLink);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
